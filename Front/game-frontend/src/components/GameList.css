@@ -1,0 +1,24 @@
+.game-list {
+    margin-top: 20px;
+}
+  
+.game-card {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+
+.sign-x {
+    color: #d32f2f;
+}
+
+.sign-o {
+    color: #1976d2;
+}
+
+.winner-msg {
+    color: #4caf50;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 20px;
+}

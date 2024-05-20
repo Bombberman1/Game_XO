@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+        "-//Checkstyle//DTD SuppressionFilter Configuration 1.0//EN"
+        "https://checkstyle.org/dtds/suppressions_1_0.dtd">
+
+<suppressions>
+    <suppress checks="JavadocVariable"
+              files="."/>
+    <suppress checks="JavadocPackage"
+              files="."/>
+    <suppress checks="MissingJavadocMethod"
+              files="."/>
+    <suppress checks="NewlineAtEndOfFile"
+              files="."/>
+    <suppress checks="HiddenField"
+              files="."/>
+    <suppress checks="LineLength"
+              files="Writer.java"/>
+    <suppress checks="HideUtilityClassConstructor"
+              files="AbstractTransport.java"/>
+    <suppress checks="HideUtilityClassConstructor"
+              files="BusRestApplication.java"/>
+    <suppress checks="DesignForExtension"
+              files="AbstractTransport.java"/>
+</suppressions>

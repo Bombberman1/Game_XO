@@ -1,0 +1,47 @@
+.game-board {
+    margin: 20px 0;
+}
+
+.game-cell {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #706f6f;
+    margin: 5px;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.game-cell:hover {
+    background-color: #f0f0f0;
+}
+
+.cell-x {
+    background-color: #ffcccb;
+    color: #d32f2f;
+}
+
+.cell-o {
+    background-color: #add8e6;
+    color: #1976d2;
+}
+
+.cell-empty {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.winning-cell {
+    animation: winningAnimation 1s infinite alternate;
+}
+
+@keyframes winningAnimation {
+    from {
+        background-color: #ffeb3b;
+    }
+    to {
+        background-color: #ffc107;
+    }
+}
