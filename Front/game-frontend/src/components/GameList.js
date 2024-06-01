@@ -55,7 +55,11 @@ function GameList() {
                   <strong>Player1 Sign:</strong> {game.lsign}
                 </Typography>
                 <Typography variant="body1" style={{ marginBottom: '5px' }} className={game.rsign === "O" ? "sign-o" : "sign-x"}>
-                  <strong>{game.mode === "Bot" ? `Bot Sign:` : `Player2 Sign:`}</strong> {game.mode === "Bot" ? game.rsign : game.rsign}
+                  {
+                  game.mode === "Player" ? <><strong>Player2 Sign:</strong> {game.rsign}</> :
+                  game.mode === "Bot" ? <><strong>Bot Sign:</strong> {game.rsign}</> : 
+                  <><strong>Blue2 Sign:</strong> {game.rsign}</>
+                  }
                 </Typography>
                 <Typography variant="body1" style={{ marginBottom: '5px' }}>
                   <strong>Game Date:</strong> {game.gameDate}

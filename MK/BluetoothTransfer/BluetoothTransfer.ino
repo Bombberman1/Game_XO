@@ -57,7 +57,7 @@ inline void startGame(char mode) {
   lcd.setCursor(0, 0);
   if(mode == 'S') {
     lcd.print("..... Settings .....");
-    if(gameMode) {
+    if(gameMode == 1) {
       lcd.setCursor(0, 1);
       lcd.print("Mode: Player");
       
@@ -75,7 +75,26 @@ inline void startGame(char mode) {
       } else if(plays == 1) {
         lcd.print("Player2");
       }
-    } else {
+    } else if(gameMode == 2) {
+      lcd.setCursor(0, 1);
+      lcd.print("Mode: Blue  ");
+      
+      lcd.setCursor(0, 2);
+      lcd.print("Player1:");
+      lcd.print(Lsign);
+      lcd.setCursor(11, 2);
+      lcd.print("Blue2:");
+      lcd.print(Rsign);
+
+      lcd.setCursor(0, 3);
+      lcd.print("Now plays: ");
+      if(plays == 0) {
+        lcd.print("Player1");
+      } else if(plays == 1) {
+        lcd.print("Blue2  ");
+      }
+    }
+    else {
       lcd.setCursor(0, 1);
       lcd.print("Mode: Bot   ");
       
@@ -104,7 +123,13 @@ inline void startGame(char mode) {
       Serial.print(gameArr[a][2] > 0 ? gameArr[a][2] : '-');
       Serial.print(",");
     }
-    Serial.print(gameMode == 0 ? "Bot" : "Player");
+    if(gameMode == 0) {
+      Serial.print("Bot");
+    } else if(gameMode == 1) {
+      Serial.print("Player");
+    } else {
+      Serial.print("Blue");
+    }
     Serial.print(",");
     Serial.print(Lsign);
     Serial.print(",");
@@ -117,8 +142,10 @@ inline void startGame(char mode) {
     } else if(plays == 1) {
       if(gameMode == 0) {
         Serial.print("Bot");
-      } else {
+      } else if(gameMode == 1) {
         Serial.print("Player2");
+      } else {
+        Serial.print("Blue2");
       }
     }
     Serial.print("}");
@@ -172,7 +199,13 @@ void placeSign(char position, char sign) {
         Serial.print(gameArr[a][2] > 0 ? gameArr[a][2] : '-');
         Serial.print(",");
       }
-      Serial.print(gameMode == 0 ? "Bot" : "Player");
+      if(gameMode == 0) {
+        Serial.print("Bot");
+      } else if(gameMode == 1) {
+        Serial.print("Player");
+      } else {
+        Serial.print("Blue");
+      }
       Serial.print(",");
       Serial.print(Lsign);
       Serial.print(",");
@@ -188,11 +221,14 @@ void placeSign(char position, char sign) {
         Serial.print("Player1");
       } else if(plays == 1) {
         if(gameMode == 0) {
-          lcd.print("Bot    ");
+          lcd.print("    Bot");
           Serial.print("Bot");
         } else if(gameMode == 1) {
           lcd.print("Player2");
           Serial.print("Player2");
+        } else {
+          lcd.print("  Blue2");
+          Serial.print("Blue2");
         }
       }
       Serial.print("}");
@@ -316,7 +352,13 @@ void blinkingWin(char winner) {
     Serial.print(gameArr[a][2] > 0 ? gameArr[a][2] : '-');
     Serial.print(",");
   }
-  Serial.print(gameMode == 0 ? "Bot" : "Player");
+  if(gameMode == 0) {
+    Serial.print("Bot");
+  } else if(gameMode == 1) {
+    Serial.print("Player");
+  } else {
+    Serial.print("Blue");
+  }
   Serial.print(",");
   Serial.print(Lsign);
   Serial.print(",");
@@ -326,8 +368,11 @@ void blinkingWin(char winner) {
     Serial.print("Player1");
     Serial.print("}");
   } else if(winner == 1) {
-    if(gameMode) {
+    if(gameMode == 1) {
       Serial.print("Player2");
+      Serial.print("}");
+    } else if(gameMode == 2) {
+      Serial.print("Blue2");
       Serial.print("}");
     } else {
       Serial.print("Bot");
@@ -344,8 +389,10 @@ void blinkingWin(char winner) {
     if(winner == 0) {
       lcd.print("Winner: Player1");
     } else if(winner == 1) {
-      if(gameMode) {
+      if(gameMode == 1) {
         lcd.print("Winner: Player2");
+      } else if(gameMode == 2) {
+        lcd.print("Winner: Blue2  ");
       } else {
         lcd.print("Winner: Bot    ");
       }
@@ -362,7 +409,13 @@ void blinkingDraw() {
     Serial.print(gameArr[a][2] > 0 ? gameArr[a][2] : '-');
     Serial.print(",");
   }
-  Serial.print(gameMode == 0 ? "Bot" : "Player");
+  if(gameMode == 0) {
+    Serial.print("Bot");
+  } else if(gameMode == 1) {
+    Serial.print("Player");
+  } else {
+    Serial.print("Blue");
+  }
   Serial.print(",");
   Serial.print(Lsign);
   Serial.print(",");
@@ -383,6 +436,7 @@ void blinkingDraw() {
 
 void setup() {
   Serial.begin(57600);
+  Serial1.begin(9600);
   lcd.begin(20, 4);
   DDRF |= (1 << 2);
 }
@@ -404,9 +458,13 @@ void loop() {
         lcd.setCursor(0, 2);
         lcd.print("Player1:");
         lcd.print(Lsign);
-        if(gameMode) {
+        if(gameMode == 1) {
           lcd.setCursor(11, 2);
           lcd.print("Player2:");
+          lcd.print(Rsign);
+        } else if(gameMode == 2) {
+          lcd.setCursor(11, 2);
+          lcd.print("  Blue2:");
           lcd.print(Rsign);
         } else {
           lcd.setCursor(11, 2);
@@ -433,7 +491,13 @@ void loop() {
           Serial.print(gameArr[a][2] > 0 ? gameArr[a][2] : '-');
           Serial.print(",");
         }
-        Serial.print(gameMode == 0 ? "Bot" : "Player");
+        if(gameMode == 0) {
+          Serial.print("Bot");
+        } else if(gameMode == 1) {
+          Serial.print("Player");
+        } else {
+          Serial.print("Blue");
+        }
         Serial.print(",");
         Serial.print(Lsign);
         Serial.print(",");
@@ -448,8 +512,9 @@ void loop() {
       break;
     case '#':
       if(start == 1) {
-        gameMode ^= 1;
-        if(gameMode) {
+        gameMode++;
+        gameMode %= 3;
+        if(gameMode == 1) {
           lcd.setCursor(0, 1);
           lcd.print("Mode: Player");
 
@@ -463,6 +528,21 @@ void loop() {
             lcd.print("Player1");
           } else if(plays == 1) {
             lcd.print("Player2");
+          }
+        } else if(gameMode == 2) {
+          lcd.setCursor(0, 1);
+          lcd.print("Mode: Blue  ");
+
+          lcd.setCursor(11, 2);
+          lcd.print("  Blue2:");
+          lcd.print(Rsign);
+
+          lcd.setCursor(0, 3);
+          lcd.print("Now plays: ");
+          if(plays == 0) {
+            lcd.print("Player1");
+          } else if(plays == 1) {
+            lcd.print("Blue2  ");
           }
         } else {
           lcd.setCursor(0, 1);
@@ -501,8 +581,10 @@ void loop() {
           if(plays == 0) {
             lcd.print("Player1");
           } else if(plays == 1) {
-            if(gameMode) {
+            if(gameMode == 1) {
               lcd.print("Player2");
+            } else if(gameMode == 2) {
+              lcd.print("Blue2  ");
             } else {
               lcd.print("Bot    ");
             }
@@ -553,15 +635,42 @@ void loop() {
         placeSign(resB - 1, Rsign);
       }
     } else if(resB != 55) {
-      placeSign(resB - 1, Rsign);
+      if(mind > 90) {
+        placeSign(resB - 1, Rsign);
+      } else {
+        while(gameArr[randRow][randCol] != 0) {
+          randRow = random(3);
+          randCol = random(3);
+        }
+        placeSign((randRow * 3) + randCol, Rsign);
+      }
     } else if(resP != 55) {
-      placeSign(resP - 1, Rsign);
+      if(mind > 90) {
+        placeSign(resP - 1, Rsign);
+      } else {
+        while(gameArr[randRow][randCol] != 0) {
+          randRow = random(3);
+          randCol = random(3);
+        }
+        placeSign((randRow * 3) + randCol, Rsign);
+      }
     } else {
       while(gameArr[randRow][randCol] != 0) {
         randRow = random(3);
         randCol = random(3);
       }
       placeSign((randRow * 3) + randCol, Rsign);
+    }
+  }
+
+  if(Serial1.available()) {
+    unsigned char bluetoothInput = Serial1.read();
+    if(bluetoothInput >= '0' && bluetoothInput <= '8') {
+      if(gameMode == 2 && start == 2 && plays == 1) {
+        placeSign(bluetoothInput - 48, Rsign);
+      } else {
+        useBuzzer();
+      }
     }
   }
 }

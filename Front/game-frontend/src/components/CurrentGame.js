@@ -71,7 +71,11 @@ function CurrentGame() {
                 <strong>Player1 Sign:</strong> {currentGame.lsign}
               </Typography>
               <Typography variant="body1" style={{ marginBottom: '5px' }} className={currentGame.rsign === "O" ? "sign-o" : "sign-x"}>
-                <strong>{currentGame.mode === "Bot" ? `Bot Sign:` : `Player2 Sign:`}</strong> {currentGame.mode === "Bot" ? currentGame.rsign : currentGame.rsign}
+                {
+                  currentGame.mode === "Player" ? <><strong>Player2 Sign:</strong> {currentGame.rsign}</> :
+                  currentGame.mode === "Bot" ? <><strong>Bot Sign:</strong> {currentGame.rsign}</> : 
+                  <><strong>Blue2 Sign:</strong> {currentGame.rsign}</>
+                }
               </Typography>
               <Typography variant="body1" style={{ marginBottom: '5px' }}>
                 <strong>Game Date:</strong> {currentGame.gameDate}
